@@ -1,3 +1,42 @@
-node_modules/
+# Python specific
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+env/
+venv/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test results
+*.coverage
+.tox/
+
+# Compiled files
+*.so
+*.dll
+*.dylib
+
+# Build artifacts
+build/
 dist/
-.env
+*.egg-info/
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+*.old
+
+# Git-specific
+.git/
