@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=production
+      - SECRET_KEY=your-secret-key
+    command: python app.py
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
