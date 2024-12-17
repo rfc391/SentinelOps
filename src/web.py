@@ -31,3 +31,13 @@ def manage_data():
         ops.add_data(data)
         return jsonify({"message": "Data added successfully"}), 201
     return jsonify(ops.get_data())
+
+@app.route('/api/analyze', methods=['GET'])
+def analyze_data():
+    token = request.headers.get("Authorization")
+    payload = auth_manager.verify_token(token)
+    if isinstance(payload, str):
+        return jsonify({"error": payload}), 401
+
+    analysis = ops.analyze_data()
+    return jsonify(analysis)

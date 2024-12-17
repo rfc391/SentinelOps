@@ -9,6 +9,7 @@
     <h1>SentinelOps Dashboard</h1>
     <button onclick="login()">Login</button>
     <button onclick="addData()">Add Data</button>
+    <button onclick="analyzeData()">Analyze Data</button>
     <script>
         let token = "";
 
@@ -42,6 +43,21 @@
             });
             const data = await response.json();
             alert(data.message || data.error);
+        }
+
+        async function analyzeData() {
+            if (!token) {
+                alert("Please login first!");
+                return;
+            }
+            const response = await fetch('/api/analyze', {
+                method: 'GET',
+                headers: {
+                    'Authorization': token
+                }
+            });
+            const data = await response.json();
+            alert(JSON.stringify(data));
         }
     </script>
 </body>
