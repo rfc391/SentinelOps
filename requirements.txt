@@ -1,4 +1,3 @@
-
 sentinel_ops
 pytest
 unittest
