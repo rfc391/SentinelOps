@@ -1,64 +1,39 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SentinelOps Dashboard</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
-</head>
-<body>
-    <h1>SentinelOps Dashboard</h1>
-    <button onclick="login()">Login</button>
-    <button onclick="addData()">Add Data</button>
-    <button onclick="analyzeData()">Analyze Data</button>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentinelOps GUI</title>
     <script>
-        let token = "";
-
-        async function login() {
-            const response = await fetch('/login', {
+        async function runSentinelOps() {
+            const directory = document.getElementById("directory").value;
+            const response = await fetch('/run', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: "admin", password: "password123" })
+                body: JSON.stringify({ directory })
             });
-            const data = await response.json();
-            if (response.ok) {
-                token = data.token;
-                alert("Logged in!");
+            const result = await response.json();
+            const output = document.getElementById("output");
+            if (result.status === 'error') {
+                output.value += `Error: ${result.message}\n`;
             } else {
-                alert("Login failed!");
+                if (result.stdout) output.value += result.stdout;
+                if (result.stderr) output.value += result.stderr;
             }
         }
 
-        async function addData() {
-            if (!token) {
-                alert("Please login first!");
-                return;
-            }
-            const response = await fetch('/api/data', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token
-                },
-                body: JSON.stringify({ id: Math.random(), value: Math.random() * 100 })
-            });
-            const data = await response.json();
-            alert(data.message || data.error);
-        }
-
-        async function analyzeData() {
-            if (!token) {
-                alert("Please login first!");
-                return;
-            }
-            const response = await fetch('/api/analyze', {
-                method: 'GET',
-                headers: {
-                    'Authorization': token
-                }
-            });
-            const data = await response.json();
-            alert(JSON.stringify(data));
+        function clearLogs() {
+            document.getElementById("output").value = '';
         }
     </script>
+</head>
+<body>
+    <h1>SentinelOps GUI</h1>
+    <label for="directory">Select Directory:</label>
+    <input type="text" id="directory" placeholder="/path/to/directory">
+    <button onclick="runSentinelOps()">Run SentinelOps</button>
+    <button onclick="clearLogs()">Clear Logs</button>
+    <textarea id="output" rows="20" cols="80" readonly></textarea>
 </body>
 </html>
