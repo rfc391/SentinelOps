@@ -1,20 +1,20 @@
 version: '3.8'
 
 services:
-  web:
-    build: .
+  flask:
+    build: ./app
     ports:
       - "5000:5000"
-    depends_on:
-      - redis
-    volumes:
-      - .:/app
-    environment:
-      - FLASK_ENV=production
-      - SECRET_KEY=your-secret-key
-    command: python app.py
 
-  redis:
-    image: "redis:alpine"
+  vault:
+    image: hashicorp/vault
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "root"
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
     ports:
-      - "6379:6379"
+      - "8200:8200"
+
+  istio:
+    image: istio/proxyv2
+    ports:
+      - "15021:15021"
