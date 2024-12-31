@@ -1,80 +1,140 @@
+
 # SentinelOps
 
-SentinelOps is a powerful, lightweight, and extensible framework designed to provide advanced threat detection, monitoring, and automated response capabilities. It enables organizations to identify and mitigate potential risks in real time, offering a robust solution for security operations and threat hunting.
+SentinelOps is a powerful, lightweight, and extensible framework for advanced threat detection, monitoring, and automated response capabilities.
+
+## Project Structure
+
+```
+├── src/
+│   ├── core/
+│   │   ├── api.py         # REST API implementation
+│   │   └── sentinel.py    # Core Sentinel functionality
+│   ├── modules/
+│   │   ├── analytics.py           # Data analysis module
+│   │   ├── operations_tracker.py  # Operations monitoring
+│   │   └── security_manager.py    # Security management
+│   ├── auth.py           # Authentication handling
+│   ├── sockets.py        # WebSocket implementation
+│   └── web.py           # Web interface
+├── tests/
+│   ├── test_modules.py    # Module tests
+│   ├── test_sentinel.py   # Core functionality tests
+│   └── test_sentinel_ops.py # Integration tests
+├── templates/
+│   └── index.html        # Web dashboard template
+```
 
 ## Features
 
-- **Threat Detection**: Prebuilt rules and customizable detection logic.
-- **Automated Incident Response**: Integrates with various tools to automate response actions.
-- **Extensible Framework**: Add custom plugins and modules to suit your organization's needs.
-- **Lightweight and Scalable**: Efficient architecture designed to handle both small and large-scale deployments.
-- **Integration Ready**: Seamlessly integrates with SIEM tools, logging services, and APIs.
+- **Threat Detection**: Real-time threat monitoring and detection
+- **Automated Response**: Intelligent incident response automation
+- **Multi-Device Support**: Responsive web interface for all devices
+- **Real-time Analytics**: Live system metrics and insights
+- **Extensible Framework**: Modular architecture for custom plugins
 
-## Installation
+## Quick Start
 
-To install SentinelOps, clone the repository and follow these steps:
-
+1. Install dependencies:
 ```bash
-git clone https://github.com/rfc391/SentinelOps.git
-cd SentinelOps
 pip install -r requirements.txt
 ```
 
-Make sure to install the required dependencies listed in `requirements.txt`.
+2. Run the application:
+```bash
+python index.py
+```
 
-## Usage
+3. Access the dashboard at: `http://0.0.0.0:5000`
 
-1. **Setup Configuration**: 
-   Configure SentinelOps by editing the `config.yaml` file in the root directory to suit your environment. 
+## Module System
 
-2. **Run the Framework**:
-   Use the following command to start SentinelOps:
-   ```bash
-   python sentinelops.py
+### Core Modules
+
+1. **SecurityManager** (`src/modules/security_manager.py`)
+   - Environmental monitoring
+   - Threat detection
+   - Security policy enforcement
+
+2. **OperationsTracker** (`src/modules/operations_tracker.py`)
+   - Metrics collection
+   - Event logging
+   - Performance monitoring
+
+3. **Analytics** (`src/modules/analytics.py`)
+   - System health analysis
+   - Insight generation
+   - Trend detection
+
+## Testing
+
+Run the test suite:
+```bash
+python -m pytest tests/
+```
+
+Test files:
+- `test_modules.py`: Individual module testing
+- `test_sentinel.py`: Core functionality testing
+- `test_sentinel_ops.py`: Integration testing
+
+## Development Guidelines
+
+### Adding New Modules
+
+1. Create module in `src/modules/`
+2. Implement required interface:
+   ```python
+   def __init__(self, name: str)
+   def run(self)
    ```
+3. Register in `index.py`
 
-3. **Custom Plugins**:
-   Place custom plugins in the `plugins/` directory and ensure they follow the required interface.
+### Code Style
 
-4. **Monitoring**:
-   Access logs and alerts via the defined output channels (e.g., file, console, or integrations).
+- Use type hints
+- Follow PEP 8 guidelines
+- Document all public methods
+- Include unit tests
 
-## Configuration
+### Testing Guidelines
 
-The `config.yaml` file allows you to specify:
-- Monitoring rules and thresholds
-- API keys for integrations
-- Logging levels and destinations
-- Other operational parameters
+1. Test file naming: `test_*.py`
+2. Use pytest fixtures
+3. Include unit and integration tests
+4. Maintain 80% code coverage minimum
 
-Refer to the sample `config.yaml` file included in the repository for guidance.
+## API Documentation
+
+### REST Endpoints
+
+- GET `/api/status`: System status
+- GET `/api/modules`: List active modules
+- POST `/api/execute`: Trigger execution
+
+### WebSocket Events
+
+- `connect`: Client connection
+- `alert`: Real-time alerts
+- `metrics`: Live metrics updates
 
 ## Contributing
 
-Contributions are welcome! Follow these steps to contribute:
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/your-feature`).
-3. Commit your changes (`git commit -m "Add new feature"`).
-4. Push the branch (`git push origin feature/your-feature`).
-5. Open a Pull Request.
-
-Ensure your code adheres to the project's style guidelines and includes appropriate documentation and tests.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+1. Fork the repository
+2. Create feature branch
+3. Submit pull request
+4. Ensure tests pass
 
 ## Support
 
-If you encounter issues or have questions, please:
-- Open an issue in the repository.
-- Check the [Wiki](https://github.com/rfc391/SentinelOps/wiki) for FAQs and guides.
-- Contact the maintainers directly via email listed in the repository.
+- Open issues in the repository
+- Check documentation in `/docs`
+- Contact maintainers
 
-## Acknowledgements
+## License
 
-SentinelOps would not be possible without the contributions of the open-source community. Special thanks to all contributors and maintainers who have made this project a success.
+MIT License - See LICENSE file
 
 ---
 
-For more information, visit the [SentinelOps Repository](https://github.com/rfc391/SentinelOps).
+For deployment options, use Replit's built-in deployment features.
