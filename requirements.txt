@@ -7,3 +7,9 @@ python-socketio==5.9.0
 requests==2.32.2
 modules
 modules
+flask
+flask-socketio
+pytest
+pytest-cov
+python-socketio
+requests

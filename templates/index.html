@@ -1,77 +1,38 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SentinelOps Dashboard</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            padding: 15px;
-            background: #f5f5f5;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        button {
-            background: #0066ff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        @media (max-width: 600px) {
-            .container { padding: 10px; }
-            .card { padding: 15px; }
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .metrics { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+        .status { background: #e8f5e9; padding: 10px; border-radius: 4px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="grid">
-            <div class="card" id="status">
-                <h2>System Status</h2>
-                <div id="statusContent"></div>
-            </div>
-            <div class="card" id="metrics">
-                <h2>Live Metrics</h2>
-                <div id="metricsContent"></div>
-            </div>
-            <div class="card" id="alerts">
-                <h2>Recent Alerts</h2>
-                <div id="alertsContent"></div>
-            </div>
-        </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <h1>SentinelOps Dashboard</h1>
+    <div class="status" id="status">Status: Loading...</div>
+    <div class="metrics" id="metrics">Loading metrics...</div>
+
     <script>
-        const socket = io();
-        socket.on('connect', () => {
-            console.log('Connected to server');
-        });
-        socket.on('alert', (data) => {
-            const alertsDiv = document.getElementById('alertsContent');
-            alertsDiv.innerHTML = `<p>${data.message}</p>` + alertsDiv.innerHTML;
-        });
+        function updateStatus() {
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('status').innerHTML = 
+                        `Status: ${data.status}<br>Uptime: ${data.uptime}`;
+                });
+            
+            fetch('/api/metrics')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('metrics').innerHTML = 
+                        `Operations: ${JSON.stringify(data.operations, null, 2)}`;
+                });
+        }
+
+        setInterval(updateStatus, 5000);
+        updateStatus();
     </script>
 </body>
 </html>
