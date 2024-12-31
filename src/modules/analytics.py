@@ -1,8 +1,16 @@
-class Analytics:
-    """Module to analyze data and generate insights."""
 
+import logging
+from datetime import datetime
+
+class Analytics:
     def __init__(self, name="Analytics"):
         self.name = name
-
+        self.logger = logging.getLogger(name)
+        self.start_time = datetime.now()
+    
     def run(self):
-        print(f"{self.name} is generating operational insights.")
+        self.logger.info(f"Analytics running since {self.start_time}")
+        self._generate_insights()
+    
+    def _generate_insights(self):
+        self.logger.info("Generating operational insights")

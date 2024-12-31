@@ -1,8 +1,9 @@
 
-flask
-flask-socketio
-pytest
-requests
-pytest-cov
-modules
-modules
+flask==2.0.1
+flask-socketio==5.1.1
+pytest==7.0.1
+pytest-cov==2.12.1
+python-socketio==5.4.0
+requests==2.26.0
+logging==0.5.1.2
+typing-extensions==3.10.0.2
