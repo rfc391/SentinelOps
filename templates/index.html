@@ -4,36 +4,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SentinelOps GUI</title>
-    <script>
-        async function runSentinelOps() {
-            const directory = document.getElementById("directory").value;
-            const response = await fetch('/run', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ directory })
-            });
-            const result = await response.json();
-            const output = document.getElementById("output");
-            if (result.status === 'error') {
-                output.value += `Error: ${result.message}\n`;
-            } else {
-                if (result.stdout) output.value += result.stdout;
-                if (result.stderr) output.value += result.stderr;
-            }
+    <title>SentinelOps Dashboard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            padding: 15px;
+            background: #f5f5f5;
         }
-
-        function clearLogs() {
-            document.getElementById("output").value = '';
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
-    </script>
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        button {
+            background: #0066ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 10px; }
+            .card { padding: 15px; }
+        }
+    </style>
 </head>
 <body>
-    <h1>SentinelOps GUI</h1>
-    <label for="directory">Select Directory:</label>
-    <input type="text" id="directory" placeholder="/path/to/directory">
-    <button onclick="runSentinelOps()">Run SentinelOps</button>
-    <button onclick="clearLogs()">Clear Logs</button>
-    <textarea id="output" rows="20" cols="80" readonly></textarea>
+    <div class="container">
+        <div class="grid">
+            <div class="card" id="status">
+                <h2>System Status</h2>
+                <div id="statusContent"></div>
+            </div>
+            <div class="card" id="metrics">
+                <h2>Live Metrics</h2>
+                <div id="metricsContent"></div>
+            </div>
+            <div class="card" id="alerts">
+                <h2>Recent Alerts</h2>
+                <div id="alertsContent"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        });
+        socket.on('alert', (data) => {
+            const alertsDiv = document.getElementById('alertsContent');
+            alertsDiv.innerHTML = `<p>${data.message}</p>` + alertsDiv.innerHTML;
+        });
+    </script>
 </body>
 </html>

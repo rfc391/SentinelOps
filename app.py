@@ -41,7 +41,18 @@ def get_status():
     return jsonify({
         'status': 'active',
         'modules': [m.__class__.__name__ for m in sentinel.modules],
-        'uptime': str(datetime.now() - sentinel.start_time)
+        'uptime': str(datetime.now() - sentinel.start_time),
+        'device_optimized': True,
+        'mobile_ready': True
+    })
+
+@app.route('/api/mobile/summary')
+def get_mobile_summary():
+    """Lightweight endpoint for mobile devices"""
+    return jsonify({
+        'status': 'active',
+        'alert_count': len(ops_tracker.get_events()),
+        'last_update': datetime.now().isoformat()
     })
 
 if __name__ == '__main__':
