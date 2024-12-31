@@ -1,15 +1,11 @@
 
-flask==3.1.0
-flask-socketio==5.5.0
-pytest==8.3.4
-pytest-cov==6.0.0
-python-socketio==5.12.1
-requests==2.32.3
-modules
-modules
-flask
-flask-socketio
-pytest
-pytest-cov
-python-socketio
-requests
+flask>=2.0.0
+psutil>=5.8.0
+pytest>=6.2.5
+logging>=0.5.1.2
+socketio>=0.2.1
+flask-socketio>=5.1.1
+typing>=3.7.4
+datetime>=4.3
+pyyaml>=5.4.1
+requests>=2.26.0
