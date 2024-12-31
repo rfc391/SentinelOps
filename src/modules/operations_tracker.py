@@ -1,34 +1,29 @@
 
 import logging
-from datetime import datetime
 from typing import Dict, List
+from datetime import datetime
 
 class OperationsTracker:
-    def __init__(self, name="Operations Tracker"):
-        self.name = name
-        self.logger = logging.getLogger(name)
-        self.metrics: Dict[str, int] = {
-            "operations_count": 0,
-            "errors_count": 0,
-            "warnings_count": 0
-        }
+    def __init__(self):
+        self.logger = logging.getLogger("OperationsTracker")
+        self.metrics: Dict[str, float] = {}
         self.events: List[Dict] = []
         
-    def run(self):
-        self.logger.info(f"{self.name} starting operation tracking")
-        self._track_metrics()
+    def track_metric(self, name: str, value: float):
+        self.metrics[name] = value
+        self.logger.info(f"Tracked metric {name}: {value}")
         
-    def _track_metrics(self):
-        self.metrics["operations_count"] += 1
-        self.events.append({
-            "timestamp": datetime.now().isoformat(),
-            "type": "tracking_started",
-            "metrics": self.metrics.copy()
-        })
-        self.logger.info(f"Current metrics: {self.metrics}")
+    def log_event(self, event_type: str, message: str):
+        event = {
+            "type": event_type,
+            "message": message,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        self.events.append(event)
+        self.logger.info(f"Logged event: {event}")
         
-    def get_metrics(self) -> Dict:
+    def get_metrics(self) -> Dict[str, float]:
         return self.metrics
         
     def get_events(self) -> List[Dict]:
-        return self.events
+        return self.events[::-1]  # Return most recent first
