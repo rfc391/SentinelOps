@@ -16,9 +16,9 @@ analytics = Analytics()
 security = SecurityManager()
 ops_tracker = OperationsTracker()
 
-sentinel.register_module(analytics)
-sentinel.register_module(security)
-sentinel.register_module(ops_tracker)
+# Register modules
+for module in [analytics, security, ops_tracker]:
+    sentinel.register_module(module)
 
 @app.route('/')
 def index():
