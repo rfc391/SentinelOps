@@ -1,5 +1,5 @@
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask_socketio import SocketIO
 from src.core.sentinel import Sentinel
 from src.modules.analytics import Analytics
@@ -11,13 +11,38 @@ app.config['SECRET_KEY'] = 'sentinelops-secret-key'
 socketio = SocketIO(app)
 
 sentinel = Sentinel(name="SentinelOps Web Instance")
-sentinel.register_module(Analytics())
-sentinel.register_module(SecurityManager())
-sentinel.register_module(OperationsTracker())
+analytics = Analytics()
+security = SecurityManager()
+ops_tracker = OperationsTracker()
+
+sentinel.register_module(analytics)
+sentinel.register_module(security)
+sentinel.register_module(ops_tracker)
 
 @app.route('/')
 def index():
     return 'SentinelOps is running'
+
+@app.route('/api/metrics')
+def get_metrics():
+    return jsonify({
+        'operations': ops_tracker.get_metrics(),
+        'start_time': sentinel.start_time.isoformat()
+    })
+
+@app.route('/api/events')
+def get_events():
+    return jsonify({
+        'events': ops_tracker.get_events()
+    })
+
+@app.route('/api/status')
+def get_status():
+    return jsonify({
+        'status': 'active',
+        'modules': [m.__class__.__name__ for m in sentinel.modules],
+        'uptime': str(datetime.now() - sentinel.start_time)
+    })
 
 if __name__ == '__main__':
     sentinel.execute()
