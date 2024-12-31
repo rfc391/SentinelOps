@@ -15,5 +15,7 @@ sentinel.register_module(security)
 sentinel.register_module(tracker)
 sentinel.register_module(analytics)
 
-# Execute modules
-sentinel.execute()
+# Initialize and run API server
+from core.api import SentinelAPI
+api = SentinelAPI(sentinel)
+api.run(port=5000)
