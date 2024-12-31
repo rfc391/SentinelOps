@@ -25,7 +25,7 @@ for module in [analytics, security, ops_tracker]:
 
 @app.route('/')
 def index() -> str:
-    return 'SentinelOps is running'
+    return render_template('dashboard.html')
 
 @app.route('/api/metrics')
 def get_metrics() -> Dict:
