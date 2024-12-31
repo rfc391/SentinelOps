@@ -4,13 +4,16 @@ from typing import List, Any
 from datetime import datetime
 
 class Sentinel:
-    def __init__(self, name: str = "Default Sentinel"):
+    """Core Sentinel class for managing and executing modules."""
+    
+    def __init__(self, name: str = "Default Sentinel") -> None:
         self.name = name
-        self.modules = []
+        self.modules: List[Any] = []
         self.start_time = datetime.now()
         self._setup_logging()
     
     def _setup_logging(self) -> None:
+        """Configure logging for the Sentinel instance."""
         logging.basicConfig(
             level=logging.INFO,
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -22,13 +25,16 @@ class Sentinel:
         self.logger = logging.getLogger(self.name)
     
     def register_module(self, module: Any) -> None:
+        """Register a new module with run() capability."""
         if not hasattr(module, 'run'):
             raise AttributeError(f"Module {module.__class__.__name__} must implement 'run' method")
+        
         if module not in self.modules:
             self.modules.append(module)
             self.logger.info(f"Module {module.__class__.__name__} registered")
         
     def execute(self) -> None:
+        """Execute all registered modules."""
         if not self.modules:
             self.logger.warning("No modules registered")
             return

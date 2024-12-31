@@ -1,6 +1,9 @@
 
+from datetime import datetime
 from flask import Flask, jsonify
 from flask_socketio import SocketIO
+from typing import Dict, List
+
 from src.core.sentinel import Sentinel
 from src.modules.analytics import Analytics
 from src.modules.security_manager import SecurityManager
@@ -10,34 +13,35 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'sentinelops-secret-key'
 socketio = SocketIO(app)
 
+# Initialize core components
 sentinel = Sentinel(name="SentinelOps Web Instance")
 analytics = Analytics()
 security = SecurityManager()
 ops_tracker = OperationsTracker()
 
-sentinel.register_module(analytics)
-sentinel.register_module(security)
-sentinel.register_module(ops_tracker)
+# Register modules
+for module in [analytics, security, ops_tracker]:
+    sentinel.register_module(module)
 
 @app.route('/')
-def index():
+def index() -> str:
     return 'SentinelOps is running'
 
 @app.route('/api/metrics')
-def get_metrics():
+def get_metrics() -> Dict:
     return jsonify({
         'operations': ops_tracker.get_metrics(),
         'start_time': sentinel.start_time.isoformat()
     })
 
 @app.route('/api/events')
-def get_events():
+def get_events() -> Dict:
     return jsonify({
         'events': ops_tracker.get_events()
     })
 
 @app.route('/api/status')
-def get_status():
+def get_status() -> Dict:
     return jsonify({
         'status': 'active',
         'modules': [m.__class__.__name__ for m in sentinel.modules],
@@ -47,7 +51,7 @@ def get_status():
     })
 
 @app.route('/api/mobile/summary')
-def get_mobile_summary():
+def get_mobile_summary() -> Dict:
     """Lightweight endpoint for mobile devices"""
     return jsonify({
         'status': 'active',
