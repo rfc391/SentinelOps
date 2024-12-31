@@ -7,3 +7,5 @@ python-socketio==5.4.0
 requests==2.26.0
 logging==0.5.1.2
 typing-extensions==3.10.0.2
+modules
+modules
