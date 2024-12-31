@@ -1,5 +1,5 @@
-sentinel_ops
-pytest
-unittest
+
 flask
-modules
+flask-socketio
+pytest
+requests
