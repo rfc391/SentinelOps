@@ -3,5 +3,4 @@ flask
 flask-socketio
 pytest
 requests
-modules
-modules
+pytest-cov
