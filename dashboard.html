@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SentinelOps Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>SentinelOps Dashboard</h1>
+        <div class="metrics">
+            <canvas id="metricsChart"></canvas>
+        </div>
+        <div class="events">
+            <h2>Recent Events</h2>
+            <ul id="eventList"></ul>
+        </div>
+    </div>
+    <script>
+        const socket = io();
+        const ctx = document.getElementById('metricsChart').getContext('2d');
+        
+        socket.on('metrics', (data) => {
+            updateMetrics(data);
+        });
+        
+        socket.on('event', (data) => {
+            addEvent(data);
+        });
+        
+        function updateMetrics(data) {
+            // Update chart with new metrics
+        }
+        
+        function addEvent(event) {
+            const list = document.getElementById('eventList');
+            const item = document.createElement('li');
+            item.textContent = `${event.type}: ${event.message}`;
+            list.prepend(item);
+        }
+    </script>
+</body>
+</html>

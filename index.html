@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SentinelOps Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .metrics { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+        .status { background: #e8f5e9; padding: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>SentinelOps Dashboard</h1>
+    <div class="status" id="status">Status: Loading...</div>
+    <div class="metrics" id="metrics">Loading metrics...</div>
+
+    <script>
+        function updateStatus() {
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('status').innerHTML = 
+                        `Status: ${data.status}<br>Uptime: ${data.uptime}`;
+                });
+            
+            fetch('/api/metrics')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('metrics').innerHTML = 
+                        `Operations: ${JSON.stringify(data.operations, null, 2)}`;
+                });
+        }
+
+        setInterval(updateStatus, 5000);
+        updateStatus();
+    </script>
+</body>
+</html>
