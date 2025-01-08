@@ -9,3 +9,6 @@ typing>=3.7.4
 datetime>=4.3
 pyyaml>=5.4.1
 requests>=2.26.0
+
+grpcio
+grpcio-tools
