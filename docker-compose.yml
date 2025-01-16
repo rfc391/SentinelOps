@@ -1,20 +1,48 @@
+
 version: '3.8'
 
 services:
-  flask:
-    build: ./app
+  sentinelops:
+    build: .
     ports:
-      - "5000:5000"
-
-  vault:
-    image: hashicorp/vault
+      - "8080:8080"
     environment:
-      VAULT_DEV_ROOT_TOKEN_ID: "root"
-      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
-    ports:
-      - "8200:8200"
+      - REDIS_HOST=redis
+      - DATABASE_URL=postgres://user:password@postgres:5432/sentinelops
+    depends_on:
+      - redis
+      - postgres
 
-  istio:
-    image: istio/proxyv2
+  redis:
+    image: redis:latest
     ports:
-      - "15021:15021"
+      - "6379:6379"
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sentinelops
+    ports:
+      - "5432:5432"
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+
+volumes:
+  grafana-data:

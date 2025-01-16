@@ -1,0 +1,27 @@
+
+{
+  "dashboard": {
+    "panels": [
+      {
+        "type": "graph",
+        "title": "CPU Usage",
+        "targets": [
+          {
+            "expr": "cpu_usage_percentage",
+            "legendFormat": "{{ instance }}"
+          }
+        ]
+      },
+      {
+        "type": "graph",
+        "title": "Memory Usage",
+        "targets": [
+          {
+            "expr": "memory_usage_bytes",
+            "legendFormat": "{{ instance }}"
+          }
+        ]
+      }
+    ]
+  }
+}
