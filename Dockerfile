@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.13.2-slim
 WORKDIR /app
 
 # Copy only required files to avoid context-related errors
