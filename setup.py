@@ -5,7 +5,7 @@ setup(
     version="1.0.0",
     packages=find_packages("src"),
     package_dir={"": "src"},
-    install_requires=[],
+    install_requires=["requests", "flask"],  # Example dependencies
     extras_require={
         "dev": ["pytest"],
     },
