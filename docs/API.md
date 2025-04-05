@@ -1,57 +1,26 @@
 
-# API Documentation for SentinelOps
+# SentinelOps API Reference
 
-## Overview
-SentinelOps provides a robust API for managing operations, data processing, and security. The API is built using REST and gRPC, ensuring flexibility and performance.
+## Core Endpoints
 
-### Endpoints
-1. **Authentication**
-   - Endpoint: `/auth`
-   - Method: POST
-   - Description: Authenticate users and retrieve tokens.
-   - Request:
-     ```json
-     {
-       "username": "user",
-       "password": "pass"
-     }
-     ```
-   - Response:
-     ```json
-     {
-       "token": "jwt_token"
-     }
-     ```
+### System Status
+- `GET /api/status`
+  - Returns system health and metrics
+  - Response: `{"status": "healthy", "metrics": {...}}`
 
-2. **Data Ingestion**
-   - Endpoint: `/ingest`
-   - Method: POST
-   - Description: Submit data for processing.
-   - Request:
-     ```json
-     {
-       "data": "payload",
-       "metadata": {}
-     }
-     ```
-   - Response:
-     ```json
-     {
-       "status": "success"
-     }
-     ```
+### Module Management
+- `GET /api/modules`
+  - Lists all active modules
+- `POST /api/modules/register`
+  - Registers new module
+  - Body: `{"name": "string", "type": "string"}`
 
-3. **Monitoring**
-   - Endpoint: `/monitor`
-   - Method: GET
-   - Description: Retrieve system health metrics.
-   - Response:
-     ```json
-     {
-       "cpu": "12%",
-       "memory": "1.2GB"
-     }
-     ```
+### Metrics
+- `GET /api/metrics`
+  - Returns current system metrics
+  - Query params: `?period=1h` (Options: 1h, 24h, 7d)
 
-## gRPC API
-Refer to the `.proto` files in the repository for gRPC definitions.
+## WebSocket Events
+- `metrics_update`: Real-time metrics updates
+- `alert`: Security alerts
+- `status_change`: System status changes
