@@ -10,3 +10,4 @@ pyyaml==6.0.1
 requests==2.32.3
 grpcio
 grpcio-tools
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
