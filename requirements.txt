@@ -11,3 +11,4 @@ requests==2.32.3
 grpcio
 grpcio-tools
 zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
+setuptools>=78.1.1 # not directly required, pinned by Snyk to avoid a vulnerability
