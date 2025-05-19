@@ -1,4 +1,4 @@
-flask==3.1.0
+flask==3.1.1
 psutil==7.0.0
 pytest==8.3.5
 logging==0.5.1.2
